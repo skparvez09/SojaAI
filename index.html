@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SojaAI | Premium AI Automation Agency</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 
+                            950: '#020C1B', 
+                            900: '#0A192F', 
+                            800: '#112240',
+                            700: '#233554'
+                        },
+                        cyan: { 
+                            300: '#64FFDA', 
+                            400: '#00E5FF', 
+                            500: '#00B8CC' 
+                        },
+                        slate: {
+                            light: '#8892b0',
+                            lighter: '#ccd6f6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'glow': '0 0 20px rgba(100, 255, 218, 0.3)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0A192F; color: #8892b0; }
+        
+        /* Grid Background Pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#233554 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Premium Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #ccd6f6, #64FFDA);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Glass Effect */
+        .glass-panel {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* FAQ Accordion Transitions */
+        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; overflow: hidden; opacity: 0; }
+        .accordion-content.active { max-height: 300px; opacity: 1; }
+        .rotate-icon { transition: transform 0.3s ease; }
+        .rotate-icon.active { transform: rotate(180deg); }
+        
+        /* Form Inputs Placeholder Color */
+        ::placeholder { color: #475569; opacity: 1; }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyan-300 selection:text-navy-900">
+
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md border-b border-white/5 bg-navy-950/80">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo(0,0)">
+                <div class="w-10 h-10 border border-cyan-300/30 rounded-lg flex items-center justify-center group-hover:border-cyan-300 transition shadow-glow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#64FFDA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="font-heading text-2xl font-bold text-slate-lighter tracking-tight">Soja<span class="text-cyan-300">AI</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <a href="#how-it-works" class="hover:text-cyan-300 transition duration-300">Process</a>
+                <a href="#comparison" class="hover:text-cyan-300 transition duration-300">Why Us</a>
+                <a href="#pricing" class="hover:text-cyan-300 transition duration-300">Pricing</a>
+                <button onclick="openModal()" class="border border-cyan-300 text-cyan-300 px-6 py-2.5 rounded hover:bg-cyan-300/10 transition duration-300">Book Demo</button>
+            </div>
+
+            <div class="md:hidden">
+                <button onclick="openModal()" class="text-cyan-300 font-bold text-sm border border-cyan-300 px-4 py-2 rounded">Get Demo</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden bg-grid-pattern">
+        <div class="absolute top-20 right-0 w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+            <div class="text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-navy-800 border border-cyan-300/20 px-4 py-1.5 rounded-full text-xs font-mono text-cyan-300 mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                    </span>
+                    AI AUTOMATION AGENCY 2.0
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold leading-[1.1] mb-6 text-slate-lighter">
+                    Stop Losing Leads to <br class="hidden lg:block">
+                    <span class="text-gradient">Missed Calls.</span>
+                </h1>
+                
+                <p class="text-base sm:text-lg text-slate-light mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    We build AI receptionists for US local businesses. It answers instantly, qualifies leads, and books appointments directly into your calendar—24/7.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button onclick="openModal()" class="px-8 py-4 bg-cyan-300 text-navy-900 rounded font-bold text-lg hover:bg-cyan-400 hover:shadow-glow transition duration-300">Get My Free Demo</button>
+                    <a href="#pricing" class="px-8 py-4 border border-slate-light/30 text-slate-lighter rounded font-bold text-lg hover:border-cyan-300 hover:text-cyan-300 transition duration-300">View Plans</a>
+                </div>
+
+                <div class="mt-8 flex items-center justify-center lg:justify-start gap-4 text-xs sm:text-sm text-slate-light">
+                    <div class="flex -space-x-3">
+                        <img src="https://i.pravatar.cc/100?img=1" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
+                        <img src="https://i.pravatar.cc/100?img=8" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
+                        <img src="https://i.pravatar.cc/100?img=3" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
+                    </div>
+                    <p>Trusted by 50+ US Business Owners</p>
+                </div>
+            </div>
+
+            <div class="relative animate-float mt-8 lg:mt-0">
+                <div class="glass-panel rounded-2xl p-4 sm:p-6 shadow-2xl border-t border-cyan-300/20 relative z-20 mx-auto max-w-md lg:max-w-full">
+                    <div class="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        </div>
+                        <span class="text-[10px] font-mono text-cyan-300 uppercase">Live SMS Console</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex gap-3 p-3 rounded-xl bg-navy-800/50 border border-white/5">
+                            <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs">JD</div>
+                            <div class="flex-1">
+                                <div class="flex justify-between mb-1">
+                                    <h4 class="font-bold text-slate-lighter text-sm">John Doe (Customer)</h4>
+                                    <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded uppercase font-bold">Booked</span>
+                                </div>
+                                <p class="text-xs text-slate-400">"Do you guys have availability for a repair tomorrow?"</p>
+                                <div class="mt-2 flex gap-2 items-center">
+                                    <i class="fa-solid fa-reply text-[10px] text-cyan-300 transform rotate-180"></i>
+                                    <span class="text-[10px] text-cyan-300 italic">AI replied & booked in 0.2s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="absolute -inset-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl opacity-20 blur-xl -z-10"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-8 border-y border-white/5 bg-navy-900/50">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-xs font-mono text-slate-500 mb-6 uppercase tracking-widest">Powering Local Services Across USA</p>
+            <div class="flex flex-wrap justify-center gap-8 lg:gap-16 opacity-40 grayscale transition hover:grayscale-0 hover:opacity-100 duration-500">
+                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-droplet text-cyan-300"></i> ProPlumb</div>
+                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-wind text-cyan-300"></i> AmericanHVAC</div>
+                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-hammer text-cyan-300"></i> EliteRoofing</div>
+                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-leaf text-cyan-300"></i> GreenScapes</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="comparison" class="py-20 lg:py-32 px-6 bg-navy-950">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-5xl font-heading font-bold text-slate-lighter mb-4">Why You're Losing Money</h2>
+                <p class="text-slate-light max-w-2xl mx-auto">The traditional way of handling leads is broken. Humans are slow; automation is instant.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                <div class="p-6 lg:p-8 rounded-2xl border border-red-500/20 bg-red-500/5">
+                    <h3 class="text-xl lg:text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-xmark"></i> The Manual Way
+                    </h3>
+                    <ul class="space-y-4 lg:space-y-6 text-slate-400 text-sm lg:text-base">
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">1</span>
+                            <span>Missed calls while you are on the job site.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">2</span>
+                            <span>Replying hours later (customer already hired someone else).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">3</span>
+                            <span>Wasting time on "price shoppers" who never book.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="p-6 lg:p-8 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-cyan-400 text-navy-900 font-bold px-4 py-1 rounded-bl-lg text-xs uppercase shadow-glow">Winner</div>
+                    <h3 class="text-xl lg:text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
+                        <i class="fa-solid fa-check"></i> The SojaAI Way
+                    </h3>
+                    <ul class="space-y-4 lg:space-y-6 text-slate-300 text-sm lg:text-base">
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-bolt"></i></span>
+                            <span><strong>Instant Response:</strong> Leads get a text back in < 10 seconds.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-robot"></i></span>
+                            <span><strong>AI Qualification:</strong> System filters out bad leads automatically.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-calendar-check"></i></span>
+                            <span><strong>Auto-Booking:</strong> Appointments land on your calendar while you sleep.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="py-20 lg:py-32 px-6 bg-navy-900 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-lighter mb-16 text-center">Three Steps to Freedom</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
+                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">01</div>
+                    <h3 class="text-lg font-bold text-white mb-3">We Build Your Brain</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">We analyze your past conversations and FAQs to train a custom AI model that sounds exactly like your best employee.</p>
+                </div>
+                
+                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
+                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">02</div>
+                    <h3 class="text-lg font-bold text-white mb-3">Connect Channels</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">We plug the AI into your Website forms, SMS, Facebook Messenger, and Instagram DM. No code needed from you.</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
+                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">03</div>
+                    <h3 class="text-lg font-bold text-white mb-3">Launch & Relax</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">The system goes live. You get notifications only when money is on the table. We handle the rest.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 lg:py-32 px-6 bg-navy-950">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl lg:text-3xl font-heading font-bold text-white">Result from a Recent Client</h2>
+            </div>
+            <div class="glass-panel p-8 lg:p-12 rounded-3xl border border-cyan-300/10 relative">
+                <div class="absolute top-6 left-6 text-6xl text-cyan-500/20 font-serif">"</div>
+                <p class="text-lg md:text-2xl text-slate-300 italic mb-8 relative z-10 text-center leading-relaxed">
+                    "I used to spend 2 hours every night replying to messages. Now SojaAI does it instantly. I woke up last Tuesday to 3 new booked jobs worth $1,500. This system is a no-brainer."
+                </p>
+                <div class="flex items-center justify-center gap-4">
+                    <div class="w-12 h-12 bg-gray-600 rounded-full overflow-hidden">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Mike T" class="object-cover w-full h-full">
+                    </div>
+                    <div class="text-left">
+                        <div class="text-white font-bold">Mike Thompson</div>
+                        <div class="text-cyan-400 text-sm">Owner, Thompson Roofing (TX)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 lg:py-32 px-6 bg-navy-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-gradient-to-br from-navy-800 to-navy-900 rounded-[30px] border border-cyan-300/20 overflow-hidden shadow-2xl relative">
+                <div class="absolute top-0 right-0 w-64 lg:w-96 h-64 lg:h-96 bg-cyan-500/10 blur-[100px] rounded-full"></div>
+                
+                <div class="p-8 lg:p-16 text-center relative z-10">
+                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-white mb-2">The Complete Package</h2>
+                    <p class="text-slate-400 mb-8 lg:mb-10 text-sm lg:text-base">One-time investment for a system that pays you forever.</p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+                        <span class="text-5xl lg:text-7xl font-bold text-white">$1,200</span>
+                        <div class="text-center sm:text-left">
+                            <div class="text-cyan-300 font-bold uppercase tracking-wider text-xs lg:text-sm">One-Time Setup Fee</div>
+                            <div class="text-slate-500 text-xs lg:text-sm">+ $99/mo hosting & maintenance</div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 lg:gap-6 text-left max-w-2xl mx-auto mb-10 lg:mb-12">
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Full AI Conversation Design
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Website & SMS Integration
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Calendar Sync (Calendly/Google)
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Missed Call Text-Back
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Monthly Performance Report
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
+                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Priority Email Support
+                        </div>
+                    </div>
+
+                    <button onclick="openModal()" class="w-full max-w-md bg-cyan-300 text-navy-900 py-4 lg:py-5 rounded-lg font-bold text-lg lg:text-xl hover:bg-cyan-400 hover:scale-105 transition duration-300 shadow-glow">
+                        START AUTOMATION
+                    </button>
+                    <p class="mt-6 text-xs text-slate-500">100% Money-Back Guarantee if we don't save you time in 30 days.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 px-6 bg-navy-950 border-t border-white/5">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-2xl lg:text-3xl font-heading font-bold text-white mb-10 text-center">Frequently Asked Questions</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
+                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(1)">
+                        <span class="font-bold text-slate-200 text-sm lg:text-base">Will the AI sound like a robot?</span>
+                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-1"></i>
+                    </button>
+                    <div class="accordion-content px-5 lg:px-6" id="content-1">
+                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Not at all. We train the AI using your past emails and messages. It uses natural language processing to sound friendly, professional, and exactly like a human staff member.</p>
+                    </div>
+                </div>
+
+                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
+                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(2)">
+                        <span class="font-bold text-slate-200 text-sm lg:text-base">How long does setup take?</span>
+                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-2"></i>
+                    </button>
+                    <div class="accordion-content px-5 lg:px-6" id="content-2">
+                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Typically 3-5 business days. We need one onboarding call to understand your business, and then we handle the entire technical build.</p>
+                    </div>
+                </div>
+
+                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
+                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(3)">
+                        <span class="font-bold text-slate-200 text-sm lg:text-base">Does it work with my current phone number?</span>
+                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-3"></i>
+                    </button>
+                    <div class="accordion-content px-5 lg:px-6" id="content-3">
+                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Yes! We can forward missed calls to our system, or integrate directly depending on your provider. You don't need to change your main business number.</p>
+                    </div>
+                </div>
+
+                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
+                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(4)">
+                        <span class="font-bold text-slate-200 text-sm lg:text-base">What happens if the AI doesn't know the answer?</span>
+                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-4"></i>
+                    </button>
+                    <div class="accordion-content px-5 lg:px-6" id="content-4">
+                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Great question. If the AI gets stumped, it is programmed to politely take the customer's details and immediately alert you (via SMS or Email) to jump in personally.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 bg-navy-950 text-center border-t border-white/10">
+        <div class="flex items-center justify-center gap-3 mb-6">
+            <div class="w-8 h-8 rounded bg-navy-800 flex items-center justify-center border border-cyan-300/30">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#64FFDA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <span class="font-heading text-xl font-bold text-white">SojaAI</span>
+        </div>
+        <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 text-sm text-slate-400">
+            <a href="#" class="hover:text-cyan-300">Privacy Policy</a>
+            <a href="#" class="hover:text-cyan-300">Terms of Service</a>
+            <a href="#" class="hover:text-cyan-300">Contact Support</a>
+        </div>
+        <p class="text-xs text-slate-600">&copy; 2026 SojaAI Automation. Built for Local Growth in USA.</p>
+    </footer>
+
+    <div id="modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-navy-950/90 backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="relative bg-navy-800 w-full max-w-xl rounded-2xl shadow-2xl border border-white/10 p-6 lg:p-8 animate-fade-in max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-heading font-bold text-white">Request Setup</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <p class="text-slate-400 mb-6 text-sm">Tell us about your business. We will build a custom strategy for you.</p>
+            
+            <form id="leadForm" class="space-y-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
+                    <input type="text" name="business" placeholder="Business Name" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <input type="email" name="email" placeholder="Email Address" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
+                    <input type="tel" name="phone" placeholder="Phone Number" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <select name="service" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 appearance-none placeholder-slate-500">
+                        <option value="" disabled selected class="text-slate-500">Service Type</option>
+                        <option>Plumbing</option>
+                        <option>HVAC</option>
+                        <option>Legal</option>
+                        <option>Medical</option>
+                        <option>Other</option>
+                    </select>
+                    
+                    <select name="inquiry_type" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 appearance-none placeholder-slate-500">
+                        <option value="" disabled selected class="text-slate-500">Inquiry Type</option>
+                        <option>I want to book a setup</option>
+                        <option>I have questions</option>
+                    </select>
+                </div>
+
+                <textarea name="message" placeholder="Briefly describe your process or question..." rows="3" class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500"></textarea>
+                
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-cyan-300 text-navy-900 rounded-lg font-bold hover:bg-cyan-400 transition mt-2">Submit Request</button>
+                <div id="status" class="hidden text-center pt-2 font-medium text-sm"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal Logic
+        const modal = document.getElementById('modal');
+        function openModal() { 
+            modal.classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeModal() { 
+            modal.classList.add('hidden'); 
+            document.body.style.overflow = 'auto';
+        }
+
+        // FAQ Logic (Accordion)
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            // Close others
+            document.querySelectorAll('.accordion-content').forEach(el => {
+                if (el !== content) {
+                    el.classList.remove('active');
+                    el.style.maxHeight = null;
+                }
+            });
+            document.querySelectorAll('.rotate-icon').forEach(el => {
+                if (el !== icon) el.classList.remove('active');
+            });
+
+            // Toggle Current
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                content.style.maxHeight = null;
+                icon.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+                icon.classList.add('active');
+            }
+        }
+
+        // Form Logic
+        const form = document.getElementById('leadForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+            
+            const originalText = btn.innerText;
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+
+            const data = Object.fromEntries(new FormData(form).entries());
+            
+            try {
+                // Ensure this URL is correct
+                const res = await fetch('https://n8n-guzaxupo.ap-southeast-1.clawcloudrun.com/webhook/3c938e8f-52ac-4b5d-911a-e70dc9220bb3', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if(res.ok) {
+                    status.classList.remove('hidden');
+                    status.innerHTML = "<span class='text-green-400'>✅ Received! We will text you shortly.</span>";
+                    form.reset();
+                    setTimeout(() => {
+                        closeModal();
+                        status.classList.add('hidden');
+                        status.innerHTML = "";
+                    }, 3000);
+                } else {
+                    throw new Error('Network error');
+                }
+            } catch (err) {
+                status.classList.remove('hidden');
+                status.innerHTML = "<span class='text-red-400'>❌ Something went wrong. Try again.</span>";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
+    </script>
+</body>
+</html>
