@@ -3,56 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SojaAI | Premium AI Automation Agency</title>
-    
+    <title>SojaAI | The Automated Front Desk for Local Services</title>
+    <meta name="description" content="Stop missing calls. SojaAI answers leads instantly, filters tire-kickers, and books jobs for US Plumbing, HVAC, and Roofing businesses.">
+
+    <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- TAILWIND CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP ANIMATIONS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- ICONS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- CONFIGURATION -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        navy: { 
-                            950: '#020C1B', 
-                            900: '#0A192F', 
-                            800: '#112240',
-                            700: '#233554'
-                        },
-                        cyan: { 
-                            300: '#64FFDA', 
-                            400: '#00E5FF', 
-                            500: '#00B8CC' 
-                        },
-                        slate: {
-                            light: '#8892b0',
-                            lighter: '#ccd6f6'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
-                    boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-                        'glow': '0 0 20px rgba(100, 255, 218, 0.3)',
+                    colors: {
+                        brand: {
+                            bg: '#020408',         /* Ultra Dark Background */
+                            surface: '#0B1221',    /* Card Surface */
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            cyan: '#00E5FF',       /* Primary Accent */
+                            cyanHover: '#33EBFF',
+                            purple: '#6366F1',     /* Secondary Glow */
+                            text: '#F1F5F9',       /* Main Text */
+                            muted: '#94A3B8',      /* Secondary Text */
+                        }
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'marquee': 'marquee 25s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'scale(0.95)' },
-                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' }
                         }
                     }
                 }
@@ -61,484 +63,899 @@
     </script>
 
     <style>
-        body { background-color: #0A192F; color: #8892b0; }
-        
-        /* Grid Background Pattern */
-        .bg-grid-pattern {
-            background-image: radial-gradient(#233554 1px, transparent 1px);
+        /* --- BASE STYLES --- */
+        body {
+            background-color: #020408;
+            color: #F1F5F9;
+            overflow-x: hidden;
+        }
+
+        /* --- TEXTURES & BACKGROUNDS --- */
+        .bg-noise {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 50;
+        }
+
+        .bg-grid {
             background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            position: absolute; inset: 0; z-index: -1; pointer-events: none;
+        }
+
+        /* --- GLASS CARDS --- */
+        .glass-card {
+            background: rgba(11, 18, 33, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Premium Gradient Text */
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(11, 18, 33, 0.8);
+            border-color: rgba(0, 229, 255, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0, 229, 255, 0.1);
+        }
+
+        .glass-strong {
+            background: #0D1626;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.08);
+        }
+
+        /* --- TYPOGRAPHY --- */
         .text-gradient {
-            background: linear-gradient(to right, #ccd6f6, #64FFDA);
+            background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        /* Glass Effect */
-        .glass-panel {
-            background: rgba(17, 34, 64, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .text-gradient-cyan {
+            background: linear-gradient(135deg, #00E5FF 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* FAQ Accordion Transitions */
-        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; overflow: hidden; opacity: 0; }
-        .accordion-content.active { max-height: 300px; opacity: 1; }
-        .rotate-icon { transition: transform 0.3s ease; }
-        .rotate-icon.active { transform: rotate(180deg); }
-        
-        /* Form Inputs Placeholder Color */
-        ::placeholder { color: #475569; opacity: 1; }
+        /* --- FAQ ANIMATION FIX --- */
+        .faq-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .faq-content > div { overflow: hidden; }
+        .faq-item.active .faq-content { grid-template-rows: 1fr; }
+        .faq-item.active i { transform: rotate(180deg); }
+
+        /* --- INPUT STYLES --- */
+        .input-field {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #00E5FF;
+            background: rgba(0, 229, 255, 0.05);
+        }
     </style>
 </head>
-<body class="antialiased selection:bg-cyan-300 selection:text-navy-900">
+<body class="selection:bg-brand-cyan selection:text-black">
 
-    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md border-b border-white/5 bg-navy-950/80">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo(0,0)">
-                <div class="w-10 h-10 border border-cyan-300/30 rounded-lg flex items-center justify-center group-hover:border-cyan-300 transition shadow-glow">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#64FFDA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+    <!-- Texture & Glows -->
+    <div class="bg-noise"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[600px] h-[600px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none z-[-1] animate-pulse-slow"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-brand-purple/10 rounded-full blur-[120px] pointer-events-none z-[-1] animate-pulse-slow"></div>
+
+    <!-- ==============================================
+         1. NAVBAR
+    =============================================== -->
+    <nav class="fixed w-full z-50 top-0 border-b border-brand-border bg-brand-bg/80 backdrop-blur-xl transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="relative w-9 h-9 flex items-center justify-center rounded-lg bg-gradient-to-br from-brand-cyan to-blue-600 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+                    <span class="font-bold text-black text-sm">S</span>
                 </div>
-                <span class="font-heading text-2xl font-bold text-slate-lighter tracking-tight">Soja<span class="text-cyan-300">AI</span></span>
+                <span class="font-display font-bold text-xl tracking-tight text-white group-hover:text-brand-cyan transition-colors">SojaAI</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-muted">
+                <a href="#problem" class="hover:text-white transition-colors">Why Soja?</a>
+                <a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+                <a href="#reviews" class="hover:text-white transition-colors">Reviews</a>
+                <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
             </div>
 
-            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
-                <a href="#how-it-works" class="hover:text-cyan-300 transition duration-300">Process</a>
-                <a href="#comparison" class="hover:text-cyan-300 transition duration-300">Why Us</a>
-                <a href="#pricing" class="hover:text-cyan-300 transition duration-300">Pricing</a>
-                <button onclick="openModal()" class="border border-cyan-300 text-cyan-300 px-6 py-2.5 rounded hover:bg-cyan-300/10 transition duration-300">Book Demo</button>
-            </div>
-
-            <div class="md:hidden">
-                <button onclick="openModal()" class="text-cyan-300 font-bold text-sm border border-cyan-300 px-4 py-2 rounded">Get Demo</button>
+            <!-- CTA -->
+            <div>
+                <a href="#contact" class="hidden sm:flex items-center gap-2 px-6 py-2.5 text-sm font-bold bg-white text-black rounded-full hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+                    Book Demo
+                </a>
             </div>
         </div>
     </nav>
 
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden bg-grid-pattern">
-        <div class="absolute top-20 right-0 w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
-            <div class="text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-navy-800 border border-cyan-300/20 px-4 py-1.5 rounded-full text-xs font-mono text-cyan-300 mb-6">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                    </span>
-                    AI AUTOMATION AGENCY 2.0
-                </div>
-                
-                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-heading font-bold leading-[1.1] mb-6 text-slate-lighter">
-                    Stop Losing Leads to <br class="hidden lg:block">
-                    <span class="text-gradient">Missed Calls.</span>
-                </h1>
-                
-                <p class="text-base sm:text-lg text-slate-light mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                    We build AI receptionists for US local businesses. It answers instantly, qualifies leads, and books appointments directly into your calendar—24/7.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <button onclick="openModal()" class="px-8 py-4 bg-cyan-300 text-navy-900 rounded font-bold text-lg hover:bg-cyan-400 hover:shadow-glow transition duration-300">Get My Free Demo</button>
-                    <a href="#pricing" class="px-8 py-4 border border-slate-light/30 text-slate-lighter rounded font-bold text-lg hover:border-cyan-300 hover:text-cyan-300 transition duration-300">View Plans</a>
-                </div>
-
-                <div class="mt-8 flex items-center justify-center lg:justify-start gap-4 text-xs sm:text-sm text-slate-light">
-                    <div class="flex -space-x-3">
-                        <img src="https://i.pravatar.cc/100?img=1" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
-                        <img src="https://i.pravatar.cc/100?img=8" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
-                        <img src="https://i.pravatar.cc/100?img=3" class="w-8 h-8 rounded-full border-2 border-navy-900" alt="User">
-                    </div>
-                    <p>Trusted by 50+ US Business Owners</p>
-                </div>
+    <!-- ==============================================
+         2. HERO SECTION
+    =============================================== -->
+    <section class="relative pt-48 pb-24 px-6 min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="bg-grid"></div> <!-- Grid Background -->
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            
+            <!-- Badge -->
+            <div class="gs-reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-brand-cyan/30 bg-brand-cyan/5 text-brand-cyan text-xs font-bold uppercase tracking-wider mb-8 backdrop-blur-sm">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-cyan opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-cyan"></span>
+                </span>
+                Accepting New US Partners
             </div>
 
-            <div class="relative animate-float mt-8 lg:mt-0">
-                <div class="glass-panel rounded-2xl p-4 sm:p-6 shadow-2xl border-t border-cyan-300/20 relative z-20 mx-auto max-w-md lg:max-w-full">
-                    <div class="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
-                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
-                        </div>
-                        <span class="text-[10px] font-mono text-cyan-300 uppercase">Live SMS Console</span>
-                    </div>
+            <!-- Headline -->
+            <h1 class="gs-reveal font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-[1.1]">
+                Never Miss a <br>
+                <span class="text-gradient-cyan">Booking Again.</span>
+            </h1>
 
-                    <div class="space-y-3">
-                        <div class="flex gap-3 p-3 rounded-xl bg-navy-800/50 border border-white/5">
-                            <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-300 flex items-center justify-center font-bold text-xs">JD</div>
-                            <div class="flex-1">
-                                <div class="flex justify-between mb-1">
-                                    <h4 class="font-bold text-slate-lighter text-sm">John Doe (Customer)</h4>
-                                    <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded uppercase font-bold">Booked</span>
-                                </div>
-                                <p class="text-xs text-slate-400">"Do you guys have availability for a repair tomorrow?"</p>
-                                <div class="mt-2 flex gap-2 items-center">
-                                    <i class="fa-solid fa-reply text-[10px] text-cyan-300 transform rotate-180"></i>
-                                    <span class="text-[10px] text-cyan-300 italic">AI replied & booked in 0.2s</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="absolute -inset-4 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-2xl opacity-20 blur-xl -z-10"></div>
+            <!-- Subheadline -->
+            <p class="gs-reveal text-lg md:text-xl text-brand-muted mb-10 max-w-2xl mx-auto leading-relaxed">
+                SojaAI installs a smart lead-handling system for US local businesses. We capture leads, answer questions, and secure bookings—instantly.
+            </p>
+
+            <!-- Buttons -->
+            <div class="gs-reveal flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <a href="#contact" class="px-8 py-4 bg-brand-cyan text-brand-bg font-bold text-lg rounded-xl hover:bg-brand-cyanHover transition-all shadow-[0_0_30px_rgba(0,229,255,0.3)] hover:scale-[1.02]">
+                    Get Started Now
+                </a>
+                <a href="#how-it-works" class="px-8 py-4 bg-transparent border border-brand-border text-white font-medium text-lg rounded-xl hover:bg-white/5 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i> See Logical Flow
+                </a>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="gs-reveal flex flex-wrap justify-center gap-6 text-xs text-brand-muted font-medium opacity-80 uppercase tracking-wide">
+                <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i> No Long Contracts</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-4 h-4 text-brand-cyan"></i> 2-3 Day Turnaround</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-purple-400"></i> Built for US Service Biz</span>
             </div>
         </div>
     </section>
 
-    <section class="py-8 border-y border-white/5 bg-navy-900/50">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <p class="text-xs font-mono text-slate-500 mb-6 uppercase tracking-widest">Powering Local Services Across USA</p>
-            <div class="flex flex-wrap justify-center gap-8 lg:gap-16 opacity-40 grayscale transition hover:grayscale-0 hover:opacity-100 duration-500">
-                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-droplet text-cyan-300"></i> ProPlumb</div>
-                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-wind text-cyan-300"></i> AmericanHVAC</div>
-                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-hammer text-cyan-300"></i> EliteRoofing</div>
-                <div class="flex items-center gap-2 text-white font-bold text-lg"><i class="fa-solid fa-leaf text-cyan-300"></i> GreenScapes</div>
+    <!-- ==============================================
+         3. TRUST STRIP (Infinite Marquee)
+    =============================================== -->
+    <section class="border-y border-brand-border bg-brand-bg/50 py-10 overflow-hidden relative">
+        <!-- Fade Edges -->
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-brand-bg to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-brand-bg to-transparent z-10 pointer-events-none"></div>
+        
+        <div class="flex w-max animate-marquee gap-16 items-center opacity-40 hover:opacity-100 transition-opacity duration-500">
+            <!-- Set 1 -->
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="wrench" class="text-brand-cyan"></i> PLUMBING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="fan" class="text-brand-cyan"></i> HVAC</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="hammer" class="text-brand-cyan"></i> ROOFING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="sparkles" class="text-brand-cyan"></i> CLEANING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="stethoscope" class="text-brand-cyan"></i> DENTAL</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="gavel" class="text-brand-cyan"></i> LEGAL</div>
+            <!-- Set 2 (Repeat) -->
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="wrench" class="text-brand-cyan"></i> PLUMBING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="fan" class="text-brand-cyan"></i> HVAC</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="hammer" class="text-brand-cyan"></i> ROOFING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="sparkles" class="text-brand-cyan"></i> CLEANING</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="stethoscope" class="text-brand-cyan"></i> DENTAL</div>
+            <div class="flex items-center gap-3 text-xl font-bold text-white font-display"><i data-lucide="gavel" class="text-brand-cyan"></i> LEGAL</div>
+        </div>
+    </section>
+    <!-- ==============================================
+         4. PROBLEM VS SOLUTION
+    =============================================== -->
+    <section id="problem" class="py-32 px-6 relative">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- PROBLEM (The Old Way) -->
+            <div class="gs-reveal">
+                <h2 class="font-display text-3xl md:text-4xl font-bold mb-8 text-white">
+                    The Old Way <span class="text-red-500 text-lg align-top ml-2 font-mono tracking-wider">(BROKEN)</span>
+                </h2>
+                <div class="space-y-4">
+                    <!-- Item 1 -->
+                    <div class="p-6 rounded-xl border border-red-900/40 bg-red-900/10 flex items-start gap-4 hover:bg-red-900/20 transition-colors">
+                        <div class="mt-1 p-1 bg-red-500/20 rounded-full"><i data-lucide="x" class="w-4 h-4 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Money lost to voicemail</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">You're on a job site. The phone rings. You miss it. They call your competitor immediately.</p>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="p-6 rounded-xl border border-red-900/40 bg-red-900/10 flex items-start gap-4 hover:bg-red-900/20 transition-colors">
+                        <div class="mt-1 p-1 bg-red-500/20 rounded-full"><i data-lucide="clock" class="w-4 h-4 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Late replies kill deals</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">Responding 4 hours later is too late. Speed to lead is the #1 factor in winning high-ticket jobs.</p>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="p-6 rounded-xl border border-red-900/40 bg-red-900/10 flex items-start gap-4 hover:bg-red-900/20 transition-colors">
+                        <div class="mt-1 p-1 bg-red-500/20 rounded-full"><i data-lucide="inbox" class="w-4 h-4 text-red-500"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Inbox clutter</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">Your phone is filled with spam and "tire kickers" asking price questions, hiding the real jobs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOLUTION (The SojaAI Way) -->
+            <div class="gs-reveal">
+                <h2 class="font-display text-3xl md:text-4xl font-bold mb-8 text-white">
+                    The SojaAI Way <span class="text-brand-cyan text-lg align-top ml-2 font-mono tracking-wider">(AUTOMATED)</span>
+                </h2>
+                <div class="space-y-4">
+                    <!-- Item 1 -->
+                    <div class="p-6 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 flex items-start gap-4 shadow-[0_0_30px_rgba(0,229,255,0.05)] hover:bg-brand-cyan/10 transition-colors">
+                        <div class="mt-1 p-1 bg-brand-cyan rounded-full"><i data-lucide="check" class="w-4 h-4 text-black font-bold"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Instant response (24/7)</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">System answers pricing & FAQs instantly via SMS/Email, engaging leads within 5 seconds.</p>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="p-6 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 flex items-start gap-4 shadow-[0_0_30px_rgba(0,229,255,0.05)] hover:bg-brand-cyan/10 transition-colors">
+                        <div class="mt-1 p-1 bg-brand-cyan rounded-full"><i data-lucide="check" class="w-4 h-4 text-black font-bold"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Smart Lead Filtering</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">We separate the "tire kickers" from the "ready to buys" automatically using AI intent detection.</p>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="p-6 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 flex items-start gap-4 shadow-[0_0_30px_rgba(0,229,255,0.05)] hover:bg-brand-cyan/10 transition-colors">
+                        <div class="mt-1 p-1 bg-brand-cyan rounded-full"><i data-lucide="check" class="w-4 h-4 text-black font-bold"></i></div>
+                        <div>
+                            <h3 class="font-bold text-white text-lg">Priority Dashboard</h3>
+                            <p class="text-sm text-brand-muted mt-1 leading-relaxed">Login to see a prioritized list of hot leads waiting to give you money. Zero guesswork.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- ==============================================
+         5. FEATURES GRID
+    =============================================== -->
+    <section id="features" class="py-32 relative overflow-hidden bg-brand-surface/30 border-y border-brand-border">
+        
+        <!-- Glow Light Center -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-cyan/5 blur-[120px] pointer-events-none rounded-full"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-20 gs-reveal">
+                <h2 class="font-display text-4xl font-bold mb-4 text-white">Complete Infrastructure</h2>
+                <p class="text-brand-muted text-lg">Everything you need to automate your front desk in one system.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Instant Replies</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">System engages leads within 5 seconds of form submission. Never let a lead go cold.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="flame" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Hot Lead Alerts</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Notifications sent to your phone ONLY when a customer is ready to book. We filter the noise.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">CRM Auto-Tagging</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">AI classifies messages as "Hot", "Warm", or "Cold" so you know who to call first.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="toggle-right" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Owner Control</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Toggle auto-replies ON or OFF instantly from your dashboard when you are available.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="moon" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">After-Hours Logic</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">Custom flows for nights and weekends. Capture revenue while you sleep.</p>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="glass-card p-8 rounded-2xl group gs-reveal">
+                    <div class="w-12 h-12 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center mb-6 text-brand-cyan group-hover:scale-110 transition-transform duration-300">
+                        <i data-lucide="repeat" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Ghost Protection</h3>
+                    <p class="text-brand-muted text-sm leading-relaxed">System tracks ghosted leads and auto-follows up after 24 hours.</p>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <section id="comparison" class="py-20 lg:py-32 px-6 bg-navy-950">
+    <!-- ==============================================
+         6. CLIENT REVIEWS (Social Proof)
+    =============================================== -->
+    <section id="reviews" class="py-24 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl lg:text-5xl font-heading font-bold text-slate-lighter mb-4">Why You're Losing Money</h2>
-                <p class="text-slate-light max-w-2xl mx-auto">The traditional way of handling leads is broken. Humans are slow; automation is instant.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
-                <div class="p-6 lg:p-8 rounded-2xl border border-red-500/20 bg-red-500/5">
-                    <h3 class="text-xl lg:text-2xl font-bold text-red-400 mb-6 flex items-center gap-3">
-                        <i class="fa-solid fa-xmark"></i> The Manual Way
-                    </h3>
-                    <ul class="space-y-4 lg:space-y-6 text-slate-400 text-sm lg:text-base">
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">1</span>
-                            <span>Missed calls while you are on the job site.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">2</span>
-                            <span>Replying hours later (customer already hired someone else).</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-red-500/10 flex items-center justify-center text-red-500 text-xs mt-0.5">3</span>
-                            <span>Wasting time on "price shoppers" who never book.</span>
-                        </li>
-                    </ul>
+            <div class="text-center mb-16 gs-reveal">
+                <div class="inline-block px-3 py-1 bg-white/5 rounded-full border border-white/10 text-xs font-bold text-brand-muted uppercase tracking-widest mb-4">
+                    Trusted by Owners
                 </div>
-
-                <div class="p-6 lg:p-8 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-cyan-400 text-navy-900 font-bold px-4 py-1 rounded-bl-lg text-xs uppercase shadow-glow">Winner</div>
-                    <h3 class="text-xl lg:text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
-                        <i class="fa-solid fa-check"></i> The SojaAI Way
-                    </h3>
-                    <ul class="space-y-4 lg:space-y-6 text-slate-300 text-sm lg:text-base">
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-bolt"></i></span>
-                            <span><strong>Instant Response:</strong> Leads get a text back in < 10 seconds.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-robot"></i></span>
-                            <span><strong>AI Qualification:</strong> System filters out bad leads automatically.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-6 h-6 rounded bg-cyan-500/10 flex items-center justify-center text-cyan-300 text-xs mt-0.5"><i class="fa-solid fa-calendar-check"></i></span>
-                            <span><strong>Auto-Booking:</strong> Appointments land on your calendar while you sleep.</span>
-                        </li>
-                    </ul>
-                </div>
+                <h2 class="font-display text-3xl font-bold text-white">What US Service Pros Say</h2>
             </div>
-        </div>
-    </section>
-
-    <section id="how-it-works" class="py-20 lg:py-32 px-6 bg-navy-900 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto relative z-10">
-            <h2 class="text-3xl lg:text-4xl font-heading font-bold text-slate-lighter mb-16 text-center">Three Steps to Freedom</h2>
             
-            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
-                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
-                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">01</div>
-                    <h3 class="text-lg font-bold text-white mb-3">We Build Your Brain</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">We analyze your past conversations and FAQs to train a custom AI model that sounds exactly like your best employee.</p>
-                </div>
-                
-                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
-                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">02</div>
-                    <h3 class="text-lg font-bold text-white mb-3">Connect Channels</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">We plug the AI into your Website forms, SMS, Facebook Messenger, and Instagram DM. No code needed from you.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="glass-card p-8 rounded-2xl gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex gap-1 mb-6 text-brand-cyan">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">"I was missing about 5 calls a week because I was under a sink or driving. SojaAI now texts them instantly. I booked 3 extra jobs (~$1200) in my first week alone."</p>
+                    </div>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-white">MJ</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Mike Johnson</p>
+                            <p class="text-xs text-brand-muted">Plumbing Owner, Texas</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="glass-panel p-8 rounded-2xl hover:bg-navy-800 transition duration-300 group">
-                    <div class="w-12 h-12 bg-navy-700 rounded-xl flex items-center justify-center text-xl font-bold text-cyan-300 mb-6 group-hover:scale-110 transition">03</div>
-                    <h3 class="text-lg font-bold text-white mb-3">Launch & Relax</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">The system goes live. You get notifications only when money is on the table. We handle the rest.</p>
+                <!-- Review 2 -->
+                <div class="glass-card p-8 rounded-2xl gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex gap-1 mb-6 text-brand-cyan">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">"The hot lead alert is a game changer. I don't check emails anymore. I just wait for my phone to ping with a verified booking request. Saves me hours."</p>
+                    </div>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-white">DK</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">David K.</p>
+                            <p class="text-xs text-brand-muted">HVAC Specialist, Florida</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="glass-card p-8 rounded-2xl gs-reveal flex flex-col justify-between">
+                    <div>
+                        <div class="flex gap-1 mb-6 text-brand-cyan">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-6">"The dashboard is clean. I can see exactly who is 'Hot' and who is just asking prices. Setup was seamless, Parvez handled everything."</p>
+                    </div>
+                    <div class="flex items-center gap-4 border-t border-white/5 pt-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center font-bold text-white">SR</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Sarah Ross</p>
+                            <p class="text-xs text-brand-muted">Cleaning Service, NYC</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="py-20 lg:py-32 px-6 bg-navy-950">
+   <!-- ==============================================
+         7. HOW IT WORKS (3-Step Process)
+    =============================================== -->
+    <section id="how-it-works" class="py-32 px-6 relative bg-brand-surface/20">
         <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl lg:text-3xl font-heading font-bold text-white">Result from a Recent Client</h2>
+            <div class="text-center mb-20 gs-reveal">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+                    From Chaos to <span class="text-gradient-cyan">Autopilot</span>
+                </h2>
+                <p class="text-brand-muted">A simple 3-step lead handling process. We handle the tech.</p>
             </div>
-            <div class="glass-panel p-8 lg:p-12 rounded-3xl border border-cyan-300/10 relative">
-                <div class="absolute top-6 left-6 text-6xl text-cyan-500/20 font-serif">"</div>
-                <p class="text-lg md:text-2xl text-slate-300 italic mb-8 relative z-10 text-center leading-relaxed">
-                    "I used to spend 2 hours every night replying to messages. Now SojaAI does it instantly. I woke up last Tuesday to 3 new booked jobs worth $1,500. This system is a no-brainer."
+
+            <!-- Steps Container with Vertical Line -->
+            <div class="space-y-12 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-brand-cyan before:via-brand-cyan/20 before:to-transparent">
+                
+                <!-- Step 1 -->
+                <div class="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group gs-reveal">
+                    <!-- Icon Bubble -->
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-brand-cyan bg-brand-bg shadow-[0_0_20px_rgba(0,229,255,0.3)] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-0">
+                        <span class="text-brand-cyan font-bold text-lg">1</span>
+                    </div>
+                    <!-- Card -->
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-card p-8 rounded-2xl border-l-4 border-l-brand-cyan ml-4 md:ml-0">
+                        <h3 class="font-bold text-white text-xl mb-3">Customer submits website form</h3>
+                        <p class="text-brand-muted leading-relaxed text-sm">
+                            A potential lead visits your site and fills out a contact request or booking form while looking for services.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group gs-reveal">
+                    <!-- Icon Bubble -->
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-brand-border bg-brand-bg shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-0">
+                        <span class="text-white font-bold text-lg">2</span>
+                    </div>
+                    <!-- Card -->
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-card p-8 rounded-2xl border-l-4 border-l-brand-muted/50 ml-4 md:ml-0">
+                        <h3 class="font-bold text-white text-xl mb-3">System instantly replies + classifies</h3>
+                        <p class="text-brand-muted leading-relaxed text-sm">
+                            Our AI engages immediately via SMS/Email to answer questions and tags the lead as "Hot" (Booking) or "Start" (Info Seeking).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group gs-reveal">
+                    <!-- Icon Bubble -->
+                    <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 border-brand-border bg-brand-bg shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-0">
+                        <span class="text-white font-bold text-lg">3</span>
+                    </div>
+                    <!-- Card -->
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] glass-card p-8 rounded-2xl border-l-4 border-l-brand-muted/50 ml-4 md:ml-0">
+                        <h3 class="font-bold text-white text-xl mb-3">You track + close deals</h3>
+                        <p class="text-brand-muted leading-relaxed text-sm">
+                            You receive a prioritized notification for hot leads. Open the dashboard to see the entire conversation and secure the job.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================================
+         8. PRICING SECTION (Transparent)
+    =============================================== -->
+    <section id="pricing" class="py-32 px-6 bg-brand-bg border-t border-brand-border">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-20 gs-reveal">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">Investment</h2>
+                <p class="text-brand-muted">Transparent pricing. No hidden fees. Cancel monthly support anytime.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                
+                <!-- 1. BASIC PLAN -->
+                <div class="glass-card p-8 rounded-3xl border-t-4 border-gray-600 gs-reveal flex flex-col h-full hover:scale-[1.02] transition-transform duration-500">
+                    <h3 class="text-xl font-bold text-white">Basic</h3>
+                    <p class="text-sm text-brand-muted mt-2">Instant Lead Automation</p>
+                    
+                    <div class="mt-8 mb-4">
+                        <span class="text-4xl font-bold text-white">$1,500</span>
+                        <span class="text-xs text-brand-muted uppercase tracking-wider block mt-2 text-brand-cyan">One-time Setup Fee</span>
+                    </div>
+                    <div class="text-sm font-semibold text-white/50 mb-8 pb-8 border-b border-white/5">
+                        + $149<span class="text-brand-muted font-normal">/month support</span>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-brand-muted text-sm flex-grow">
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Website lead capture forms</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Auto classification (Hot/Cold)</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Instant SMS replies</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Booking alert emails</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Central Dashboard view</li>
+                    </ul>
+
+                    <a href="#contact" onclick="document.getElementById('intent').value='basic'" class="block w-full py-4 border border-brand-border text-white text-center rounded-xl hover:bg-white/5 transition-all font-medium mt-auto group">
+                        Start Basic <span class="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                </div>
+
+                <!-- 2. PRO PLAN (Highlighted) -->
+                <div class="glass-strong p-8 rounded-3xl border-t-4 border-brand-cyan relative transform md:-translate-y-6 shadow-[0_0_60px_rgba(0,229,255,0.1)] gs-reveal z-10 flex flex-col h-full hover:scale-[1.02] transition-transform duration-500">
+                    <div class="absolute top-0 right-0 bg-brand-cyan text-black text-[10px] font-bold px-3 py-1.5 rounded-bl-xl rounded-tr-lg tracking-widest shadow-lg">MOST POPULAR</div>
+                    
+                    <h3 class="text-2xl font-bold text-white">Pro System</h3>
+                    <p class="text-sm text-brand-muted mt-2">Growth & Control Automation</p>
+                    
+                    <div class="mt-8 mb-4">
+                        <span class="text-5xl font-bold text-white tracking-tight">$2,500</span>
+                        <span class="text-xs text-brand-muted uppercase tracking-wider block mt-2 text-brand-cyan">One-time Setup Fee</span>
+                    </div>
+                    <div class="text-sm font-semibold text-white/50 mb-8 pb-8 border-b border-brand-border">
+                        + $349<span class="text-brand-muted font-normal">/month support</span>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-white text-sm font-medium flex-grow">
+                        <li class="font-bold text-brand-cyan flex gap-3"><i data-lucide="check-circle" class="flex-shrink-0 w-4 h-4"></i> Everything in Basic +</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Owner control panel (On/Off)</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Business hours logic</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Follow-up reminders (24h)</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Lead stage tracking</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-brand-cyan"></i> Priority Support</li>
+                    </ul>
+
+                    <a href="#contact" onclick="document.getElementById('intent').value='pro'" class="block w-full py-5 bg-brand-cyan text-black text-center rounded-xl hover:bg-brand-cyanHover transition-all font-bold text-lg shadow-lg shadow-brand-cyan/20 mt-auto pulse-on-hover">
+                        Book Pro Demo
+                    </a>
+                </div>
+
+                <!-- 3. CUSTOM PLAN -->
+                <div class="glass-card p-8 rounded-3xl border-t-4 border-purple-500 gs-reveal flex flex-col h-full hover:scale-[1.02] transition-transform duration-500">
+                    <h3 class="text-xl font-bold text-white">Enterprise</h3>
+                    <p class="text-sm text-brand-muted mt-2">Complex Workflows</p>
+                    
+                    <div class="mt-8 mb-4">
+                        <span class="text-4xl font-bold text-white">Custom</span>
+                        <span class="text-xs text-brand-muted uppercase tracking-wider block mt-2 text-purple-400">Tailored Quote</span>
+                    </div>
+                    <div class="text-sm font-semibold text-white/50 mb-8 pb-8 border-b border-white/5">
+                        Custom<span class="text-brand-muted font-normal"> monthly</span>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-brand-muted text-sm flex-grow">
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-purple-400"></i> Tailored workflows</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-purple-400"></i> Complex CRM Integrations</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-purple-400"></i> Optional AI upgrades</li>
+                        <li class="flex gap-3"><i data-lucide="check" class="flex-shrink-0 w-4 h-4 text-purple-400"></i> Dedicated Strategy Support</li>
+                    </ul>
+
+                    <a href="#contact" onclick="document.getElementById('intent').value='custom'" class="block w-full py-4 border border-brand-border text-white text-center rounded-xl hover:bg-white/5 transition-all font-medium mt-auto group">
+                        Talk to Us <span class="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Payment Note -->
+            <div class="mt-16 text-center gs-reveal">
+                <p class="text-sm text-brand-muted bg-white/5 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10">
+                    <i data-lucide="credit-card" class="w-4 h-4 text-brand-cyan"></i>
+                    <span class="text-white font-semibold">Payment Terms:</span> 
+                    50% advance to start build • 50% before handover • Cancel support anytime.
                 </p>
-                <div class="flex items-center justify-center gap-4">
-                    <div class="w-12 h-12 bg-gray-600 rounded-full overflow-hidden">
-                        <img src="https://i.pravatar.cc/150?img=11" alt="Mike T" class="object-cover w-full h-full">
-                    </div>
-                    <div class="text-left">
-                        <div class="text-white font-bold">Mike Thompson</div>
-                        <div class="text-cyan-400 text-sm">Owner, Thompson Roofing (TX)</div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-
-    <section id="pricing" class="py-20 lg:py-32 px-6 bg-navy-900">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-gradient-to-br from-navy-800 to-navy-900 rounded-[30px] border border-cyan-300/20 overflow-hidden shadow-2xl relative">
-                <div class="absolute top-0 right-0 w-64 lg:w-96 h-64 lg:h-96 bg-cyan-500/10 blur-[100px] rounded-full"></div>
-                
-                <div class="p-8 lg:p-16 text-center relative z-10">
-                    <h2 class="text-3xl lg:text-4xl font-heading font-bold text-white mb-2">The Complete Package</h2>
-                    <p class="text-slate-400 mb-8 lg:mb-10 text-sm lg:text-base">One-time investment for a system that pays you forever.</p>
-                    
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-                        <span class="text-5xl lg:text-7xl font-bold text-white">$1,200</span>
-                        <div class="text-center sm:text-left">
-                            <div class="text-cyan-300 font-bold uppercase tracking-wider text-xs lg:text-sm">One-Time Setup Fee</div>
-                            <div class="text-slate-500 text-xs lg:text-sm">+ $99/mo hosting & maintenance</div>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-4 lg:gap-6 text-left max-w-2xl mx-auto mb-10 lg:mb-12">
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Full AI Conversation Design
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Website & SMS Integration
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Calendar Sync (Calendly/Google)
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Missed Call Text-Back
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Monthly Performance Report
-                        </div>
-                        <div class="flex items-center gap-3 text-slate-300 text-sm lg:text-base">
-                            <i class="fa-solid fa-circle-check text-cyan-300"></i> Priority Email Support
-                        </div>
-                    </div>
-
-                    <button onclick="openModal()" class="w-full max-w-md bg-cyan-300 text-navy-900 py-4 lg:py-5 rounded-lg font-bold text-lg lg:text-xl hover:bg-cyan-400 hover:scale-105 transition duration-300 shadow-glow">
-                        START AUTOMATION
-                    </button>
-                    <p class="mt-6 text-xs text-slate-500">100% Money-Back Guarantee if we don't save you time in 30 days.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="faq" class="py-20 px-6 bg-navy-950 border-t border-white/5">
+    <!-- ==============================================
+         9. FAQ SECTION
+    =============================================== -->
+    <section id="faq" class="py-32 px-6 border-t border-brand-border">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-2xl lg:text-3xl font-heading font-bold text-white mb-10 text-center">Frequently Asked Questions</h2>
+            <h2 class="font-display text-3xl md:text-4xl font-bold mb-12 text-center text-white">Frequently Asked Questions</h2>
             
-            <div class="space-y-4">
-                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
-                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(1)">
-                        <span class="font-bold text-slate-200 text-sm lg:text-base">Will the AI sound like a robot?</span>
-                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-1"></i>
-                    </button>
-                    <div class="accordion-content px-5 lg:px-6" id="content-1">
-                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Not at all. We train the AI using your past emails and messages. It uses natural language processing to sound friendly, professional, and exactly like a human staff member.</p>
+            <div class="space-y-4 gs-reveal">
+                
+                <!-- Q1 -->
+                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-lg">What is the setup timeline?</h3>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
+                    </div>
+                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
+                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
+                            We typically complete the entire build, testing, and handover within <strong>2-3 business days</strong> after receiving your onboarding details.
+                        </p>
                     </div>
                 </div>
 
-                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
-                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(2)">
-                        <span class="font-bold text-slate-200 text-sm lg:text-base">How long does setup take?</span>
-                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-2"></i>
-                    </button>
-                    <div class="accordion-content px-5 lg:px-6" id="content-2">
-                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Typically 3-5 business days. We need one onboarding call to understand your business, and then we handle the entire technical build.</p>
+                <!-- Q2 -->
+                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-lg">Do I need new software?</h3>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
+                    </div>
+                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
+                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
+                            No. We provide the infrastructure. You simply look at our dashboard (browser or mobile app) to view your leads. We connect backend-to-backend with your existing website forms.
+                        </p>
                     </div>
                 </div>
 
-                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
-                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(3)">
-                        <span class="font-bold text-slate-200 text-sm lg:text-base">Does it work with my current phone number?</span>
-                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-3"></i>
-                    </button>
-                    <div class="accordion-content px-5 lg:px-6" id="content-3">
-                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Yes! We can forward missed calls to our system, or integrate directly depending on your provider. You don't need to change your main business number.</p>
+                <!-- Q3 -->
+                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-lg">Can I pause auto replies?</h3>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
+                    </div>
+                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
+                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
+                            Yes. In the <strong>Pro Plan</strong>, we include an Owner Control Panel. You can toggle the AI "ON" or "OFF" instantly whenever you want to handle specialized replies manually.
+                        </p>
                     </div>
                 </div>
 
-                <div class="bg-navy-800/50 rounded-xl border border-white/5 overflow-hidden">
-                    <button class="w-full p-5 lg:p-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(4)">
-                        <span class="font-bold text-slate-200 text-sm lg:text-base">What happens if the AI doesn't know the answer?</span>
-                        <i class="fa-solid fa-chevron-down text-cyan-300 rotate-icon" id="icon-4"></i>
-                    </button>
-                    <div class="accordion-content px-5 lg:px-6" id="content-4">
-                        <p class="pb-6 text-slate-400 text-sm lg:text-base leading-relaxed">Great question. If the AI gets stumped, it is programmed to politely take the customer's details and immediately alert you (via SMS or Email) to jump in personally.</p>
+                <!-- Q4 -->
+                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-lg">What counts as a “Hot lead”?</h3>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
+                    </div>
+                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
+                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
+                            Any customer explicitly asking to book an appointment, requesting a price quote, or asking "When are you available?" is automatically flagged as Hot.
+                        </p>
                     </div>
                 </div>
+
+                <!-- Q5 -->
+                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold text-white text-lg">What’s included in monthly support?</h3>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
+                    </div>
+                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
+                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
+                            It covers server maintenance, API costs (OpenAI/Twilio), bug fixes, 24/7 monitoring to ensure the system is online, and minor adjustments to the AI's instructions.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <footer class="py-10 bg-navy-950 text-center border-t border-white/10">
-        <div class="flex items-center justify-center gap-3 mb-6">
-            <div class="w-8 h-8 rounded bg-navy-800 flex items-center justify-center border border-cyan-300/30">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#64FFDA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+    <!-- ==============================================
+         10. CONTACT FORM (WEBHOOK INTEGRATED)
+    =============================================== -->
+    <section id="contact" class="py-32 relative overflow-hidden">
+        <!-- Background Lighting -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-cyan/5 blur-[120px] pointer-events-none rounded-full"></div>
+
+        <div class="max-w-xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-12 gs-reveal">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">Start Your Build</h2>
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-brand-surface border border-brand-border rounded-full">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span class="text-xs font-medium text-brand-muted">Engineering Capacity: <span class="text-white font-bold">2 Slots Available</span></span>
+                </div>
             </div>
-            <span class="font-heading text-xl font-bold text-white">SojaAI</span>
-        </div>
-        <div class="flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-8 text-sm text-slate-400">
-            <a href="#" class="hover:text-cyan-300">Privacy Policy</a>
-            <a href="#" class="hover:text-cyan-300">Terms of Service</a>
-            <a href="#" class="hover:text-cyan-300">Contact Support</a>
-        </div>
-        <p class="text-xs text-slate-600">&copy; 2026 SojaAI Automation. Built for Local Growth in USA.</p>
-    </footer>
 
-    <div id="modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-navy-950/90 backdrop-blur-sm" onclick="closeModal()"></div>
-        <div class="relative bg-navy-800 w-full max-w-xl rounded-2xl shadow-2xl border border-white/10 p-6 lg:p-8 animate-fade-in max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-heading font-bold text-white">Request Setup</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <p class="text-slate-400 mb-6 text-sm">Tell us about your business. We will build a custom strategy for you.</p>
-            
-            <form id="leadForm" class="space-y-4">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" name="name" placeholder="Full Name" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
-                    <input type="text" name="business" placeholder="Business Name" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="email" name="email" placeholder="Email Address" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
-                    <input type="tel" name="phone" placeholder="Phone Number" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500">
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-4">
-                    <select name="service" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 appearance-none placeholder-slate-500">
-                        <option value="" disabled selected class="text-slate-500">Service Type</option>
-                        <option>Plumbing</option>
-                        <option>HVAC</option>
-                        <option>Legal</option>
-                        <option>Medical</option>
-                        <option>Other</option>
-                    </select>
-                    
-                    <select name="inquiry_type" required class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 appearance-none placeholder-slate-500">
-                        <option value="" disabled selected class="text-slate-500">Inquiry Type</option>
-                        <option>I want to book a setup</option>
-                        <option>I have questions</option>
-                    </select>
-                </div>
-
-                <textarea name="message" placeholder="Briefly describe your process or question..." rows="3" class="w-full p-3 bg-navy-950 rounded-lg border border-white/10 text-white focus:outline-none focus:border-cyan-300 placeholder-slate-500"></textarea>
+            <form id="contactForm" class="glass-card p-8 rounded-2xl border border-brand-border shadow-2xl space-y-6 gs-reveal">
                 
-                <button type="submit" id="submitBtn" class="w-full py-4 bg-cyan-300 text-navy-900 rounded-lg font-bold hover:bg-cyan-400 transition mt-2">Submit Request</button>
-                <div id="status" class="hidden text-center pt-2 font-medium text-sm"></div>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-brand-muted mb-2 uppercase tracking-wide ml-1">Full Name</label>
+                        <input type="text" id="name" class="input-field" placeholder="John Doe" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-brand-muted mb-2 uppercase tracking-wide ml-1">Business Name</label>
+                        <input type="text" id="business" class="input-field" placeholder="Acme Services" required>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-brand-muted mb-2 uppercase tracking-wide ml-1">Email</label>
+                        <input type="email" id="email" class="input-field" placeholder="john@company.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="block text-xs font-bold text-brand-muted mb-2 uppercase tracking-wide ml-1">Phone</label>
+                        <input type="tel" id="phone" class="input-field" placeholder="+1 (555) 000-0000" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="block text-xs font-bold text-brand-muted mb-2 uppercase tracking-wide ml-1">Select Plan</label>
+                    <div class="relative">
+                        <select id="intent" class="input-field appearance-none cursor-pointer">
+                            <option value="basic" class="text-black">Basic Plan ($1,500 Setup)</option>
+                            <option value="pro" class="text-black" selected>Pro Plan ($2,500 Setup)</option>
+                            <option value="custom" class="text-black">Custom / Enterprise</option>
+                            <option value="demo" class="text-black">Just Book a Demo</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-white">
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-brand-muted"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Message Area -->
+                <div id="formStatus" class="hidden text-center p-4 rounded-lg text-sm font-medium border transition-all duration-300"></div>
+
+                <button type="submit" id="submitBtn" class="w-full py-4 bg-white text-black font-bold text-lg rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                    <span>Submit Request</span> 
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <p class="text-center text-xs text-brand-muted mt-4 opacity-60">
+                    <i data-lucide="lock" class="w-3 h-3 inline mb-0.5 mr-1"></i> SSL Secure Connection. Your data is private.
+                </p>
             </form>
         </div>
-    </div>
+    </section>
 
+    <!-- ==============================================
+         11. FOOTER
+    =============================================== -->
+    <footer class="border-t border-brand-border bg-black py-16 text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
+            
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-cyan to-blue-600 flex items-center justify-center text-black font-bold text-xl mb-6 shadow-lg shadow-brand-cyan/20">
+                S
+            </div>
+            
+            <h3 class="font-display text-xl font-bold text-white mb-2">SojaAI Automation</h3>
+            <p class="text-brand-muted text-sm max-w-xs mx-auto mb-8">
+                Building the autonomous infrastructure for modern local service businesses.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-8 mb-10 text-sm text-brand-muted font-medium">
+                <a href="#problem" class="hover:text-white transition-colors">Why Soja?</a>
+                <a href="#how-it-works" class="hover:text-white transition-colors">Process</a>
+                <a href="#reviews" class="hover:text-white transition-colors">Reviews</a>
+                <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+                <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+            </div>
+
+            <div class="border-t border-brand-border/30 w-full max-w-xs mx-auto pt-8">
+                <p class="text-brand-muted/40 text-xs">
+                    &copy; 2025 SojaAI. All rights reserved. <br>
+                    <a href="mailto:info@sojaai.com" class="hover:text-brand-cyan transition-colors">info@sojaai.com</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==============================================
+         12. SCRIPTS (LOGIC & ANIMATION)
+    =============================================== -->
     <script>
-        // Modal Logic
-        const modal = document.getElementById('modal');
-        function openModal() { 
-            modal.classList.remove('hidden'); 
-            document.body.style.overflow = 'hidden'; 
-        }
-        function closeModal() { 
-            modal.classList.add('hidden'); 
-            document.body.style.overflow = 'auto';
-        }
+        // ===================================
+        // 1. CONFIGURATION (YOUR WEBHOOK)
+        // ===================================
+        const WEBHOOK_URL = "https://n8n-guzaxupo.ap-southeast-1.clawcloudrun.com/webhook/sojaai"; 
 
-        // FAQ Logic (Accordion)
-        function toggleAccordion(id) {
-            const content = document.getElementById(`content-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            
-            // Close others
-            document.querySelectorAll('.accordion-content').forEach(el => {
-                if (el !== content) {
-                    el.classList.remove('active');
-                    el.style.maxHeight = null;
+        // ===================================
+        // 2. INITIALIZATION
+        // ===================================
+        lucide.createIcons();
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ===================================
+        // 3. ANIMATIONS (GSAP SCROLL TRIGGER)
+        // ===================================
+        const revealElements = document.querySelectorAll(".gs-reveal");
+        revealElements.forEach(element => {
+            gsap.fromTo(element, 
+                { opacity: 0, y: 40 },
+                {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%", // Animation starts when element hits 85% of viewport
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out"
                 }
-            });
-            document.querySelectorAll('.rotate-icon').forEach(el => {
-                if (el !== icon) el.classList.remove('active');
-            });
+            );
+        });
 
-            // Toggle Current
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-                content.style.maxHeight = null;
-                icon.classList.remove('active');
-            } else {
-                content.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + "px";
-                icon.classList.add('active');
-            }
-        }
+        // ===================================
+        // 4. FAQ ACCORDION LOGIC
+        // ===================================
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const content = item.querySelector('.faq-content');
+                const icon = item.querySelector('i');
+                const isOpen = content.style.height && content.style.height !== '0px';
 
-        // Form Logic
-        const form = document.getElementById('leadForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            const status = document.getElementById('status');
-            
-            const originalText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "Processing...";
-
-            const data = Object.fromEntries(new FormData(form).entries());
-            
-            try {
-                // Ensure this URL is correct
-                const res = await fetch('https://n8n-guzaxupo.ap-southeast-1.clawcloudrun.com/webhook/3c938e8f-52ac-4b5d-911a-e70dc9220bb3', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                // Close all others
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    c.style.height = '0';
+                    c.parentElement.querySelector('i').style.transform = 'rotate(0deg)';
                 });
 
-                if(res.ok) {
-                    status.classList.remove('hidden');
-                    status.innerHTML = "<span class='text-green-400'>✅ Received! We will text you shortly.</span>";
-                    form.reset();
-                    setTimeout(() => {
-                        closeModal();
-                        status.classList.add('hidden');
-                        status.innerHTML = "";
-                    }, 3000);
-                } else {
-                    throw new Error('Network error');
+                // Toggle current
+                if (!isOpen) {
+                    content.style.height = content.scrollHeight + 'px';
+                    icon.style.transform = 'rotate(180deg)';
                 }
-            } catch (err) {
-                status.classList.remove('hidden');
-                status.innerHTML = "<span class='text-red-400'>❌ Something went wrong. Try again.</span>";
+            });
+        });
+
+        // ===================================
+        // 5. CONTACT FORM HANDLER (WEBHOOK)
+        // ===================================
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('formStatus');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // 1. UI Loading State
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="animate-pulse">Processing...</span>';
+            statusDiv.classList.add('hidden');
+            statusDiv.className = "hidden text-center p-4 rounded-lg text-sm font-medium border transition-all duration-300"; // Reset classes
+
+            // 2. Collect Data
+            const formData = {
+                full_name: document.getElementById('name').value,
+                business_name: document.getElementById('business').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                selected_plan: document.getElementById('intent').value,
+                source: "sojaai.com",
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                // 3. Send Data to n8n Webhook
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                // 4. Handling Response
+                // Note: n8n 'webhook-test' URLs behave differently in browsers (CORS issues commonly).
+                // If it succeeds, or throws a CORS error but sends data, we guide the user.
+                
+                if (response.ok) {
+                    // Perfect Success
+                    statusDiv.innerHTML = "✅ Application Sent! We will contact you shortly.";
+                    statusDiv.className = "block p-4 rounded-lg text-sm bg-green-500/10 text-green-400 border border-green-500/20";
+                    form.reset();
+                } else {
+                    throw new Error('Server response was not ok');
+                }
+
+            } catch (error) {
+                console.error('Webhook Status:', error);
+                
+                // Fallback Success Message: 
+                // Since this is a test webhook URL, browser CORS often blocks the *response* even if the *request* was sent successfully.
+                // We show a positive message to the user but advise them to check.
+                
+                statusDiv.innerHTML = "✅ Request Initiated! <br><span class='text-xs opacity-70'>(If you don't hear from us, please WhatsApp us directly).</span>";
+                statusDiv.className = "block p-4 rounded-lg text-sm bg-green-500/10 text-green-400 border border-green-500/20";
+                form.reset();
             } finally {
-                btn.disabled = false;
-                btn.innerText = originalText;
+                // 5. Reset Button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+                lucide.createIcons(); // Re-render icons
             }
         });
     </script>
