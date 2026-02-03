@@ -643,7 +643,7 @@
             <!-- Payment Note -->
             <div class="mt-16 text-center gs-reveal">
                 <p class="text-sm text-brand-muted bg-white/5 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/10">
-                    <i data-lucide="credit-card" class="w-4 h-4 text-brand-cyan"></i>
+                 <i data-lucide="credit-card" class="w-4 h-4 text-brand-cyan"></i>
                     <span class="text-white font-semibold">Payment Terms:</span> 
                     50% advance to start build • 50% before handover • Cancel support anytime.
                 </p>
@@ -651,82 +651,115 @@
         </div>
     </section>
     <!-- ==============================================
-         9. FAQ SECTION
+            9. FAQ SECTION
     =============================================== -->
-    <section id="faq" class="py-32 px-6 border-t border-brand-border">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="font-display text-3xl md:text-4xl font-bold mb-12 text-center text-white">Frequently Asked Questions</h2>
-            
-            <div class="space-y-4 gs-reveal">
-                
-                <!-- Q1 -->
-                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-white text-lg">What is the setup timeline?</h3>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
-                    </div>
-                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
-                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
-                            We typically complete the entire build, testing, and handover within <strong>2-3 business days</strong> after receiving your onboarding details.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Q2 -->
-                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-white text-lg">Do I need new software?</h3>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
-                    </div>
-                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
-                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
-                            No. We provide the infrastructure. You simply look at our dashboard (browser or mobile app) to view your leads. We connect backend-to-backend with your existing website forms.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Q3 -->
-                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-white text-lg">Can I pause auto replies?</h3>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
-                    </div>
-                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
-                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
-                            Yes. In the <strong>Pro Plan</strong>, we include an Owner Control Panel. You can toggle the AI "ON" or "OFF" instantly whenever you want to handle specialized replies manually.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Q4 -->
-                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-white text-lg">What counts as a “Hot lead”?</h3>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
-                    </div>
-                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
-                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
-                            Any customer explicitly asking to book an appointment, requesting a price quote, or asking "When are you available?" is automatically flagged as Hot.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Q5 -->
-                <div class="glass-card px-6 py-5 rounded-xl cursor-pointer group faq-item">
-                    <div class="flex justify-between items-center">
-                        <h3 class="font-bold text-white text-lg">What’s included in monthly support?</h3>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-brand-muted transition-transform duration-300 group-hover:text-white"></i>
-                    </div>
-                    <div class="faq-content h-0 overflow-hidden transition-all duration-300">
-                        <p class="text-brand-muted mt-4 leading-relaxed pb-2">
-                            It covers server maintenance, API costs (OpenAI/Twilio), bug fixes, 24/7 monitoring to ensure the system is online, and minor adjustments to the AI's instructions.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
+    <section id="faq" class="py-20 px-6 border-t border-white/10 bg-black">
+    <div class="max-w-3xl mx-auto">
+        
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">Frequently Asked Questions</h2>
+            <p class="text-gray-400">Everything you need to know about our AI automation.</p>
         </div>
-    </section>
+        
+        <div class="space-y-4">
+            
+            <div class="faq-item group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
+                <button class="faq-header flex justify-between items-center w-full px-6 py-5 text-left focus:outline-none">
+                    <h3 class="font-bold text-white text-lg">How fast is the setup?</h3>
+                    <svg class="icon w-5 h-5 text-gray-400 transform transition-transform duration-300 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-content px-6 pb-5 text-gray-400" style="max-height: 200px; opacity: 1;">
+                    <p class="leading-relaxed">
+                        We typically complete the entire build, testing, and handover within <strong>7 to 14 days</strong>. This ensures your AI is perfectly trained before going live.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
+                <button class="faq-header flex justify-between items-center w-full px-6 py-5 text-left focus:outline-none">
+                    <h3 class="font-bold text-white text-lg">Does it work with my CRM?</h3>
+                    <svg class="icon w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-content px-6 pb-0 text-gray-400 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
+                    <p class="leading-relaxed pt-2">
+                        Yes! We integrate seamlessly with <strong>HubSpot, Salesforce, GoHighLevel,</strong> and Google Sheets. You don't need to change your existing software.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
+                <button class="faq-header flex justify-between items-center w-full px-6 py-5 text-left focus:outline-none">
+                    <h3 class="font-bold text-white text-lg">Will the AI sound like a robot?</h3>
+                    <svg class="icon w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-content px-6 pb-0 text-gray-400 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
+                    <p class="leading-relaxed pt-2">
+                        Not at all. We use advanced NLP models trained on your specific brand voice. It speaks naturally, uses context, and feels just like a human team member.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
+                <button class="faq-header flex justify-between items-center w-full px-6 py-5 text-left focus:outline-none">
+                    <h3 class="font-bold text-white text-lg">Can I take over the chat manually?</h3>
+                    <svg class="icon w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-content px-6 pb-0 text-gray-400 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
+                    <p class="leading-relaxed pt-2">
+                        Absolutely. You have a "Human-in-the-Loop" dashboard. You can jump into any conversation at any time, and the AI will pause instantly.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item group bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300 hover:border-blue-500/50">
+                <button class="faq-header flex justify-between items-center w-full px-6 py-5 text-left focus:outline-none">
+                    <h3 class="font-bold text-white text-lg">What is included in support?</h3>
+                    <svg class="icon w-5 h-5 text-gray-400 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="faq-content px-6 pb-0 text-gray-400 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-in-out">
+                    <p class="leading-relaxed pt-2">
+                        Our monthly retainer covers server maintenance, API cost management, prompt updates, and 24/7 monitoring to ensure your system never goes offline.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll('.faq-header').forEach(button => {
+        button.addEventListener('click', () => {
+            const faqItem = button.parentElement;
+            const content = faqItem.querySelector('.faq-content');
+            const icon = button.querySelector('.icon');
+            
+            // Check if currently open
+            const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+            // Close all other items (Optional - remove this block if you want multiple open at once)
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.querySelector('.faq-content').style.maxHeight = '0px';
+                item.querySelector('.faq-content').style.opacity = '0';
+                item.querySelector('.faq-content').style.paddingBottom = '0';
+                item.querySelector('.icon').classList.remove('rotate-180');
+            });
+
+            // Toggle current item
+            if (!isOpen) {
+                content.style.maxHeight = content.scrollHeight + 40 + "px"; // Dynamic height
+                content.style.opacity = '1';
+                content.style.paddingBottom = '1.25rem'; // matches pb-5
+                icon.classList.add('rotate-180');
+            } else {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                content.style.paddingBottom = '0';
+                icon.classList.remove('rotate-180');
+            }
+        });
+    });
+</script>
 
     <!-- ==============================================
          10. CONTACT FORM (WEBHOOK INTEGRATED)
